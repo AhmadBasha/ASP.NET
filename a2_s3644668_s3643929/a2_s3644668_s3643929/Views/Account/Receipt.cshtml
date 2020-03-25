@@ -1,0 +1,18 @@
+﻿@model (string tType, int tID, DateTime tTime, int cID, int aID, double amount, string comment, int toAccNum)
+
+
+    <div class="text-center">
+        <h1 class="display-4">@Model.tType Successful</h1>
+        <p>Transaction ID: @Model.tID</p>
+        <p>Transaction Time: @Model.tTime.ToLocalTime()</p>
+        <p>Customer ID: @Model.cID</p>
+        <p>Source Account Number: @Model.aID</p>
+        @if (Model.toAccNum != -1)
+        {
+            <p>Destination Account Number: @Model.toAccNum</p>
+        }
+        <p>Amount: @Model.amount</p>
+        <p>Comment: @Model.comment</p>
+
+        <a asp-action="Index" asp-controller="Customer">Go Back Home</a>
+    </div>

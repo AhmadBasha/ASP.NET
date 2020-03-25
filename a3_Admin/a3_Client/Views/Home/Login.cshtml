@@ -1,0 +1,46 @@
+﻿<!-- here to can access to the variables on Login class -->
+@{
+    <!-- the title of the page-->
+    ViewData["Title"] = "Login";
+}
+<!-- The header -->
+<div class="text-center">
+    <h1 class="display-1">Admin Login Page</h1>
+</div>
+<div class="row">
+    <div class="col-md-3">
+
+        <!-- it should be the same method name in controller-->
+        <form asp-action="Login">
+
+            <!-- for UserID-->
+            <div class="form-group">
+                <label for="UserID" class="control-label"> Admin ID</label>
+                <input id="UserID" name="UserID" class="form-control" data-val="true"
+                       data-val-required="You Need To Enter Your User ID!!" />
+                @Html.ValidationMessage("UserID", new { @class = "text-danger" })
+            </div>
+
+            <!-- for The password-->
+            <div class="form-group">
+                <label for="Password" class="control-label">Password</label>
+                <input id="Password" name="Password" type="password" class="form-control"
+                       data-val="true" data-val-required="You Need To Enter Your Password!!" />
+                @Html.ValidationMessage("Password", new { @class = "text-danger" })
+            </div>
+
+            <!-- for the button-->
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+
+            </div>
+            @Html.ValidationMessage("LoginFailed", new { @class = "text-danger" })
+        </form>
+    </div>
+</div>
+
+<!-- when we click to see the red message -->
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

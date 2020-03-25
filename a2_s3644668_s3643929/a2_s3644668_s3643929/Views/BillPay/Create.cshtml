@@ -1,0 +1,71 @@
+@using Microsoft.AspNetCore.Http
+@model BillPay
+@*@{
+        Layout = null;
+    }*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>New Billpay</title>
+</head>
+<body>
+
+    <h4>Add BillPay</h4>
+    <hr />
+    <div class="row">
+        <div class="col-8">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="AccountNumber" class="control-label"></label>
+                    <input disabled asp-for="AccountNumber" class="form-control" value="@Model.AccountNumber" />
+                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="PayeeID" class="control-label"></label>
+                    <input asp-for="PayeeID" class="form-control" />
+                    <span asp-validation-for="PayeeID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Amount" class="control-label"></label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ScheduleDate" class="control-label"></label>
+                    <input asp-for="ScheduleDate" class="form-control" />
+                    <span asp-validation-for="ScheduleDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Period" class="control-label"></label>
+                    @*<input asp-for="Period" class="form-control" />*@
+                    <ul>
+                        <li>@Html.RadioButtonFor(m => m.Period, PeriodType.Annually) Anually</li>
+                        <li>@Html.RadioButtonFor(m => m.Period, PeriodType.Monthly) Monthly</li>
+                        <li>@Html.RadioButtonFor(m => m.Period, PeriodType.Quarterly) Quarterly</li>
+                        <li>@Html.RadioButtonFor(m => m.Period, PeriodType.Once) Once</li>
+                    </ul>
+                    <span asp-validation-for="Period" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add BillPay" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+</body>
+</html>

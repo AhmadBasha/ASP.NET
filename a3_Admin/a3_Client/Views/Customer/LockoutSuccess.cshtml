@@ -1,0 +1,21 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Lockout";
+}
+
+<h1>Lockout Successful</h1>
+
+<h4>Customer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <p>User :  @Model.CustomerName </p>
+
+        <p> Locked out for 1 minute! </p>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

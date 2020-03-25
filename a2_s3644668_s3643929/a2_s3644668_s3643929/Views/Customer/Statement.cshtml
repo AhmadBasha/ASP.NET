@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Http
+@model Customer
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Statement Display</h1>
+</div>
+<div class="container">
+
+    <form asp-action="Display">
+
+        <h6>Please Choose your account: </h6>
+        @* Following code is for the dropdown select of accounts and we need 4 parameters *@
+        @Html.DropDownList(
+            "SelectAcc",     @* the name of the select input (inspect) *@
+            new SelectList(
+                Model.Accounts.Select(  @*selecting from accounts in customer models*@
+                    x => new { 
+                        id = x.AccountNumber, @* Here the hidden value in inspect and make it easier to call them *@
+                        text = x.AccountType + " : " + x.AccountNumber }  @* showing them in the select *@
+                    ),
+                "id",
+                "text"),
+            "Select one",
+            new { @class = "form-control", onchange = "this.form.submit();" })
+    </form>
+</div>

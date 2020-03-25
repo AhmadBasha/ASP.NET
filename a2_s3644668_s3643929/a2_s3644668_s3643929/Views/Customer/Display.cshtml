@@ -1,0 +1,29 @@
+﻿
+@model BaseAccount
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Showing : @Model.AccountNumber (@Model.AccountType Account)</h1>
+</div>
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Transactions[0].Amount)</th>
+            <th>@Html.DisplayNameFor(x => x.Transactions[0].TransactionType)</th>
+            <th>@Html.DisplayNameFor(x => x.Transactions[0].ModifyDate)</th>
+            @*<th>   @Html.DisplayNameFor(x => x.Accounts[0].Balance)</th>*@
+            <th></th>
+        </tr>
+            @foreach (var transaction in Model.Transactions)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => transaction.Amount)</td>
+                    <td>@Html.DisplayFor(x => transaction.TransactionType)</td>
+                    <td>@Html.DisplayFor(x => transaction.ModifyDate)</td>
+                    @*<td>@Html.DisplayFor(x => account.Balance)</td>*@
+                </tr>
+            }
+        </table>
+    </div>

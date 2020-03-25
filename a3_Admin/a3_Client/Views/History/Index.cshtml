@@ -1,0 +1,133 @@
+﻿@using a3_Client.Models.ViewModels
+@model IEnumerable<Customer>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>HISTORY</h1>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col col-4">Please Choose customer: </div>
+
+        <div class="col col-8">
+            <form asp-action="ChoseCustomer">
+        
+                @Html.DropDownList(
+                     "SelectCust",
+                     new SelectList(
+                         Model.Select(
+                             x => new
+                             {
+                                 id = x.CustomerID,
+                                 text = x.CustomerID + " : " + x.CustomerName
+                             }
+                             ),
+                         "id",
+                         "text"),
+                     "Select one",
+                     new { @class = "form-control", onchange = "this.form.submit();" })
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-4">Please Choose Account: </div>
+
+        <div class="col col-8">
+            <form asp-action="ChoseAccount">
+        
+                <input type="hidden" id="SelectCust" name="SelectCust" value="@ViewBag.SelectCust"/>
+
+                @if (ViewBag.SelectCust != null)
+                {
+                    @Html.DropDownList(
+                        "SelectAcc",
+                        new SelectList(
+                            Model.Where(x => x.CustomerID == ViewBag.SelectCust).FirstOrDefault().Accounts.Select(
+                                x => new
+                                {
+                                    id = x.AccountNumber,
+                                    text = x.AccountNumber + " : " + x.AccountType
+                                }),
+                            "id",
+                            "text"),
+                        "Select one",
+                        new { @class = "form-control", onchange = "this.form.submit();" })
+                }
+                else
+                {
+                    @Html.DropDownList("SelectAcc", new SelectList (Model), "Select Customer First", new { @class = "form-control", @disabled = "disabled" })
+                }
+            </form>
+         </div>
+    </div>
+
+    <div clss="row">
+        <partial>
+            @{
+                if (ViewBag.SelectCust != null && ViewBag.SelectAcc != null)
+                {
+                    Html.RenderPartial("FilterPartial", new FilterViewModel { FromTime = DateTime.UtcNow.AddYears(-1), ToTime = DateTime.UtcNow });
+                }
+            }
+        </partial>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.First().Accounts[0].Transactions[0].TransactionID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.First().Accounts[0].Transactions[0].TransactionType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.First().Accounts[0].Transactions[0].Comment)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.First().Accounts[0].Transactions[0].Amount)
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (ViewBag.SelectCust != null && ViewBag.SelectAcc != null)
+                {
+                    @foreach (var item in Model
+                        .Where(x => x.CustomerID == ViewBag.SelectCust)
+                        .FirstOrDefault().Accounts.Where(y => y.AccountNumber == ViewBag.SelectAcc)
+                        .FirstOrDefault().Transactions)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Comment)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                        </tr>
+                    }
+                }
+             </tbody>
+        </table>
+    </div>
+
+
+    <div class="row">
+        @if (ViewBag.SelectCust != null && ViewBag.SelectAcc != null)
+        {
+            Html.RenderPartial("ChartsViewPartial");
+        }
+    </div>
+
+</div>

@@ -1,0 +1,65 @@
+﻿@model BaseAccount
+@{
+    ViewData["Title"] = "Bill Pay";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bill Pays ( Ac Num : @Model.AccountNumber )</h1>
+</div>
+
+<div class="container">
+    <h3>Your Sheduled Bill Pays</h3>
+    <table class="table">
+
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.BillPays[0].Payee.PayeeName)</th>
+            <th>@Html.DisplayNameFor(x => x.BillPays[0].Amount)</th>
+            <th>@Html.DisplayNameFor(x => x.BillPays[0].ScheduleDate)</th>
+            <th>@Html.DisplayNameFor(x => x.BillPays[0].Period)</th>
+            <th></th>
+        </tr>
+        @foreach (var billPay in Model.BillPays)
+        {
+            @if (billPay.Blocked)
+            {
+                <tr style="background-color:red">
+                    <td>@Html.DisplayFor(x => billPay.Payee.PayeeName)</td>
+                    <td>@Html.DisplayFor(x => billPay.Amount)</td>
+                    <td>@Html.DisplayFor(x => billPay.ScheduleDate)</td>
+                    <td>@Html.DisplayFor(x => billPay.Period)</td>
+                    <td>
+                        <form asp-action="Edit" method="post">
+                            <input type="hidden" id="editID" name="editID" value="@billPay.BillPayID" />
+                            <input disabled type="submit" value="Modify" class="btn btn-primary" />
+                        </form>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => billPay.Payee.PayeeName)</td>
+                    <td>@Html.DisplayFor(x => billPay.Amount)</td>
+                    <td>@Html.DisplayFor(x => billPay.ScheduleDate)</td>
+                    <td>@Html.DisplayFor(x => billPay.Period)</td>
+                    <td>
+                        <form asp-action="Edit" method="post">
+                            <input type="hidden" id="editID" name="editID" value="@billPay.BillPayID" />
+                            <input type="submit" value="Modify" class="btn btn-primary" />
+                        </form>
+                    </td>
+                </tr>
+            }
+
+
+        }
+    </table>
+</div>
+
+<div class="container">
+    <ul>
+        <li style="margin: 10px 0;"><a class="btn btn-primary" asp-action="Create" asp-route-id="@Model.AccountNumber">Create new BillPay</a></li>
+        <li style="margin: 10px 0;"><a class="btn btn-primary" asp-action="CreatePayee">Create new Payee</a></li>
+
+    </ul>
+</div>
